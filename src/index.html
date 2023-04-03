@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Time Chat Application</title>
+    <style>
+        ul.myUl{
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Real Time Chat Application</h1>
+    <ul class="myUl">
+        <li>Lets Talk</li>
+    </ul>
+    <form class="myForm">
+        <input type="text" size="100" class="myInput">
+        <input type="submit">
+    </form>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js" integrity="sha512-AI5A3zIoeRSEEX9z3Vyir8NqSMC1pY7r5h2cE+9J6FLsoEmSSGLFaqMQw8SWvoONXogkfFrkQiJfLeHLz3+HOg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        var socket = io();
+        var ul =  document.querySelector("ul.myUl")
+        socket.on("serverevent",(payload)=>{
+            console.log(payload)
+           ul.innerHTML += `<li>${payload}</li>`
+        })
+        document.querySelector("form.myForm").addEventListener("submit",(e)=>{
+            e.preventDefault()
+            console.log("ok")
+            const msg = document.querySelector("input.myInput").value
+            console.log(msg)
+            document.querySelector("input.myInput").value = " "
+            socket.emit("clientevent",msg)
+        })
+    </script>
+</body>
+</html>
